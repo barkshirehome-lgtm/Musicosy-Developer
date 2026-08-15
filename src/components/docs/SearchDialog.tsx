@@ -40,7 +40,7 @@ export function SearchDialog() {
         <kbd className="font-mono text-[10px] text-muted-foreground">⌘K</kbd>
       </button>
 
-      <CommandDialog open={open} onOpenChange={setOpen} shouldFilter={false}>
+      <CommandDialog open={open} onOpenChange={setOpen}>
         <CommandInput
           placeholder="Search features, routes, endpoints…"
           value={query}
@@ -55,7 +55,7 @@ export function SearchDialog() {
               {hits.map((hit) => (
                 <CommandItem
                   key={`${hit.sectionSlug}/${hit.slug}`}
-                  value={`${hit.sectionSlug}/${hit.slug}`}
+                  value={`${hit.name} ${hit.sectionTitle}`}
                   onSelect={() => {
                     setOpen(false);
                     setQuery("");
