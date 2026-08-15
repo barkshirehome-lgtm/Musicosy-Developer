@@ -61,7 +61,7 @@ function Landing() {
             </Link>
             <Link
               to="/docs/$section"
-              params={{ section: sections[0].slug }}
+              params={{ section: sections[0]!.slug }}
               className="inline-flex items-center gap-2 border border-border px-4 py-2.5 text-sm font-medium transition-colors hover:bg-surface"
             >
               Start with Discover
