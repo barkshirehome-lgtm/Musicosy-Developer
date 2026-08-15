@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DocsRouteImport } from './routes/docs'
 import { Route as DocsIndexRouteImport } from './routes/docs.index'
+import { Route as DocsSectionRouteImport } from './routes/docs.$section'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,28 +29,36 @@ const DocsIndexRoute = DocsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => DocsRoute,
 } as any)
+const DocsSectionRoute = DocsSectionRouteImport.update({
+  id: '/$section',
+  path: '/$section',
+  getParentRoute: () => DocsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/docs': typeof DocsRouteWithChildren
+  '/docs/$section': typeof DocsSectionRoute
   '/docs/': typeof DocsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/docs/$section': typeof DocsSectionRoute
   '/docs': typeof DocsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/docs': typeof DocsRouteWithChildren
+  '/docs/$section': typeof DocsSectionRoute
   '/docs/': typeof DocsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/docs' | '/docs/'
+  fullPaths: '/' | '/docs' | '/docs/$section' | '/docs/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/docs'
-  id: '__root__' | '/' | '/docs' | '/docs/'
+  to: '/' | '/docs/$section' | '/docs'
+  id: '__root__' | '/' | '/docs' | '/docs/$section' | '/docs/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -80,14 +89,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsIndexRouteImport
       parentRoute: typeof DocsRoute
     }
+    '/docs/$section': {
+      id: '/docs/$section'
+      path: '/$section'
+      fullPath: '/docs/$section'
+      preLoaderRoute: typeof DocsSectionRouteImport
+      parentRoute: typeof DocsRoute
+    }
   }
 }
 
 interface DocsRouteChildren {
+  DocsSectionRoute: typeof DocsSectionRoute
   DocsIndexRoute: typeof DocsIndexRoute
 }
 
 const DocsRouteChildren: DocsRouteChildren = {
+  DocsSectionRoute: DocsSectionRoute,
   DocsIndexRoute: DocsIndexRoute,
 }
 

@@ -2,7 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { getSection, groupLabel, isEndpoint } from "@/lib/docs";
 
-export const Route = createFileRoute("/docs/$section")({
+export const Route = createFileRoute("/docs/$section/")({
   loader: ({ params }) => {
     const section = getSection(params.section);
     if (!section) throw notFound();
