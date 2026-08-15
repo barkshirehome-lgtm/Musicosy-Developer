@@ -48,7 +48,7 @@ export function getFeature(sectionSlug: string, featureSlug: string) {
 }
 
 export function groupLabel(title: string) {
-  const [group, name] = title.split("-").map((p) => p.trim());
+  const [group, name] = title.split(" - ").map((p) => p.trim());
   return { group: group ?? title, name: name ?? title };
 }
 
