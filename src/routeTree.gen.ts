@@ -12,7 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DocsRouteImport } from './routes/docs'
 import { Route as DocsIndexRouteImport } from './routes/docs.index'
-import { Route as DocsSectionRouteImport } from './routes/docs.$section'
+import { Route as DocsSectionIndexRouteImport } from './routes/docs.$section.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -29,36 +29,36 @@ const DocsIndexRoute = DocsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => DocsRoute,
 } as any)
-const DocsSectionRoute = DocsSectionRouteImport.update({
-  id: '/$section',
-  path: '/$section',
+const DocsSectionIndexRoute = DocsSectionIndexRouteImport.update({
+  id: '/$section/',
+  path: '/$section/',
   getParentRoute: () => DocsRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/docs': typeof DocsRouteWithChildren
-  '/docs/$section': typeof DocsSectionRoute
   '/docs/': typeof DocsIndexRoute
+  '/docs/$section/': typeof DocsSectionIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/docs/$section': typeof DocsSectionRoute
   '/docs': typeof DocsIndexRoute
+  '/docs/$section': typeof DocsSectionIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/docs': typeof DocsRouteWithChildren
-  '/docs/$section': typeof DocsSectionRoute
   '/docs/': typeof DocsIndexRoute
+  '/docs/$section/': typeof DocsSectionIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/docs' | '/docs/$section' | '/docs/'
+  fullPaths: '/' | '/docs' | '/docs/' | '/docs/$section/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/docs/$section' | '/docs'
-  id: '__root__' | '/' | '/docs' | '/docs/$section' | '/docs/'
+  to: '/' | '/docs' | '/docs/$section'
+  id: '__root__' | '/' | '/docs' | '/docs/' | '/docs/$section/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -89,24 +89,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsIndexRouteImport
       parentRoute: typeof DocsRoute
     }
-    '/docs/$section': {
-      id: '/docs/$section'
+    '/docs/$section/': {
+      id: '/docs/$section/'
       path: '/$section'
-      fullPath: '/docs/$section'
-      preLoaderRoute: typeof DocsSectionRouteImport
+      fullPath: '/docs/$section/'
+      preLoaderRoute: typeof DocsSectionIndexRouteImport
       parentRoute: typeof DocsRoute
     }
   }
 }
 
 interface DocsRouteChildren {
-  DocsSectionRoute: typeof DocsSectionRoute
   DocsIndexRoute: typeof DocsIndexRoute
+  DocsSectionIndexRoute: typeof DocsSectionIndexRoute
 }
 
 const DocsRouteChildren: DocsRouteChildren = {
-  DocsSectionRoute: DocsSectionRoute,
   DocsIndexRoute: DocsIndexRoute,
+  DocsSectionIndexRoute: DocsSectionIndexRoute,
 }
 
 const DocsRouteWithChildren = DocsRoute._addFileChildren(DocsRouteChildren)
